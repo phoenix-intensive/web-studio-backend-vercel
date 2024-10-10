@@ -113,7 +113,7 @@ app.use("/api/user", userRoutes);
 
 // Добавляем поддержку Angular маршрутов
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html')); // Изменённый путь к index.html
+    res.sendFile(path.join(__dirname, 'index.html')); // Отправляем index.html для всех не API маршрутов
 });
 
 // Обработка 404 ошибки (для API)
