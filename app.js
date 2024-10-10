@@ -103,13 +103,11 @@ passport.use(new JwtStrategy({
 app.use(passport.initialize()); // Инициализация Passport.js
 
 // Подключение маршрутов
-app.use("/api", authRoutes);
+app.use("/api/articles", articleRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/categories", categoryRoutes);
-app.use("/api/types", typeRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/cart", cartRoutes);
-app.use("/api/favorites", favoriteRoutes);
-app.use("/api/orders", orderRoutes);
+app.use("/api/comments", commentRoutes);
+app.use("/api/requests", requestRoutes);
 app.use("/api/user", userRoutes);
 
 // Обработка 404 ошибки
