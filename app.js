@@ -63,13 +63,8 @@ const app = express();
 // Настройка CORS
 app.use(cors({ credentials: true, origin: true }));
 
-// Указываем путь к скомпилированным файлам (dist)
-app.use(express.static(path.join(__dirname, 'dist')));
-
-// Все остальные запросы отправляем на index.html
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
 // Настройка сессий
 app.use(session({
