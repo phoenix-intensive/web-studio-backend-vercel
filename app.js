@@ -18,6 +18,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const migrateMongo = require('migrate-mongo');
 
 // Подключение к MongoDB
+// Функция для выполнения миграций
 mongoose.connect(config.db.dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('Successfully connected to MongoDB');
@@ -64,6 +65,8 @@ app.use(cors({ credentials: true, origin: true }));
 
 // Настройка для статических файлов
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'frontend/dist'))); // Добавлено для Angular
+
 app.use(express.json());
 
 // Настройка сессий
@@ -108,7 +111,12 @@ app.use("/api/comments", commentRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api/user", userRoutes);
 
-// Обработка 404 ошибки
+// Добавляем поддержку Angular маршрутов
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend/dist/index.html')); // Отправляем index.html для Angular
+});
+
+// Обработка 404 ошибки (для API)
 app.use((req, res, next) => {
     res.status(404).json({ error: 'Not Found' });
 });
