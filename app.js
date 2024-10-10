@@ -66,9 +66,7 @@ app.use(cors({ credentials: true, origin: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+
 
 // Настройка сессий
 app.use(session({
