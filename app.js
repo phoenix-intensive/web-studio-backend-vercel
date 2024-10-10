@@ -63,9 +63,13 @@ const app = express();
 // Настройка CORS
 app.use(cors({ credentials: true, origin: true }));
 
-// Настройка для статических файлов
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json());
+// Указываем путь к скомпилированным файлам (dist)
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Все остальные запросы отправляем на index.html
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 // Настройка сессий
 app.use(session({
@@ -108,14 +112,6 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api/user", userRoutes);
-
-// Добавляем поддержку Angular маршрутов
-app.use(express.static(path.join(__dirname, 'dist')));
-
-// Все остальные запросы отправляем на index.html, чтобы Angular обрабатывал маршруты
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist/index.html'));
-});
 
 // Обработка 404 ошибки (для API)
 app.use((req, res, next) => {
