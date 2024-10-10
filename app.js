@@ -80,7 +80,7 @@ app.use(session({
 
 // Настройка Passport.js и стратегии JWT
 passport.use(new JwtStrategy({
-    jwtFromRequest: ExtractJwt.fromHeader('x-access-token'),
+    jwtFromRequest: ExtractJwt.fromHeader('x-auth'),
     secretOrKey: config.secret,
     algorithms: ["HS256"],
 }, async (payload, next) => {
