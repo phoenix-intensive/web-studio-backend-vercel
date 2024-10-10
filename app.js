@@ -65,8 +65,6 @@ app.use(cors({ credentials: true, origin: true }));
 
 // Настройка для статических файлов
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'frontend/dist'))); // Добавлено для Angular
-
 app.use(express.json());
 
 // Настройка сессий
@@ -112,8 +110,11 @@ app.use("/api/requests", requestRoutes);
 app.use("/api/user", userRoutes);
 
 // Добавляем поддержку Angular маршрутов
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html')); // Отправляем index.html для всех не API маршрутов
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Все остальные запросы отправляем на index.html, чтобы Angular обрабатывал маршруты
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
 // Обработка 404 ошибки (для API)
